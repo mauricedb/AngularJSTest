@@ -1,10 +1,4 @@
-﻿@{
-    ViewBag.Title = "Simple books";
-}
-
-<h2>Simple books</h2>
-
-<div class="container-fluid" ng-controller="App.SimpleBooksCtrl">
+﻿<div class="container">
     <div class="span3">
         <ul class="nav">
             <li ng-repeat="book in books" ng-click="select(book)" class="btn-link">{{book.title}}</li>
@@ -20,9 +14,3 @@
 
     </div>
 </div>
-
-@section scripts
-{
-    <script src="~/App/Models/Book.js"></script>
-    <script src="~/App/Controllers/SimpleBooksCtrl.js"></script>
-}

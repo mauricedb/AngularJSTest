@@ -11,6 +11,7 @@ module App {
             $scope.workItems = [
                 { href: "Static", title: "Static content" },
                 { href: "SimpleBooks", title: "Simple books" },
+                { href: "SpaBooks", title: "SPA books" },
             ];
 
         }

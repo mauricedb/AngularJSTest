@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "SPA books";
+}
+
+<h2>SPA books</h2>
+
+
+<div class="container-fluid">
+    @{
+        Html.RenderAction("SubMenu");
+    }
+
+    <div data-ng-view="">
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script src="~/App/Models/Book.js"></script>
+    <script src="~/App/Controllers/SpaBooksCtrl.js"></script>
+}

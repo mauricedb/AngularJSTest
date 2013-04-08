@@ -1,7 +1,7 @@
 var App;
 (function (App) {
-    var MainViewCtrl = (function () {
-        function MainViewCtrl($scope) {
+    var SimpleBooksCtrl = (function () {
+        function SimpleBooksCtrl($scope) {
             this.$scope = $scope;
             $scope.books = App.createBooks();
             $scope.selected = $scope.books[0];
@@ -9,10 +9,10 @@ var App;
                 $scope.selected = book;
             };
         }
-        MainViewCtrl.$inject = [
+        SimpleBooksCtrl.$inject = [
             "$scope"
         ];
-        return MainViewCtrl;
+        return SimpleBooksCtrl;
     })();
-    App.MainViewCtrl = MainViewCtrl;    
+    App.SimpleBooksCtrl = SimpleBooksCtrl;    
 })(App || (App = {}));

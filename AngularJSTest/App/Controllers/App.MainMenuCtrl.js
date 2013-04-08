@@ -13,6 +13,10 @@ var App;
                     href: "SimpleBooks",
                     title: "Simple books"
                 }, 
+                {
+                    href: "SpaBooks",
+                    title: "SPA books"
+                }, 
                 
             ];
         }

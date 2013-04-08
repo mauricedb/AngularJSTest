@@ -186,6 +186,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SimpleBooksController.cs" />
+    <Compile Include="Controllers\SpaBooksController.cs" />
     <Compile Include="Controllers\StaticController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -195,6 +196,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\SpaBooks\Index.cshtml" />
+    <Content Include="Views\SpaBooks\SubMenu.cshtml" />
+    <Content Include="Views\SpaBooks\Page1.cshtml" />
+    <Content Include="Views\SpaBooks\Page2.cshtml" />
     <TypeScriptCompile Include="App\Controllers\SimpleBooksCtrl.ts" />
     <Content Include="App\Controllers\SimpleBooksCtrl.js">
       <DependentUpon>SimpleBooksCtrl.ts</DependentUpon>
@@ -203,6 +208,13 @@
       <DependentUpon>SimpleBooksCtrl.ts</DependentUpon>
     </Content>
     <TypeScriptCompile Include="App\Models\Book.ts" />
+    <TypeScriptCompile Include="App\Controllers\SpaBooksCtrl.ts" />
+    <Content Include="App\Controllers\SpaBooksCtrl.js">
+      <DependentUpon>SpaBooksCtrl.ts</DependentUpon>
+    </Content>
+    <Content Include="App\Controllers\SpaBooksCtrl.min.js">
+      <DependentUpon>SpaBooksCtrl.ts</DependentUpon>
+    </Content>
     <Content Include="App\Models\Book.js">
       <DependentUpon>Book.ts</DependentUpon>
     </Content>

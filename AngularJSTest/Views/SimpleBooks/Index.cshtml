@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Simple books</h2>
+
+<div class="container-fluid" ng-controller="App.MainViewCtrl">
+    <div class="span3">
+        <ul class="nav">
+            <li ng-repeat="book in books" ng-click="select(book)" class="btn-link">{{book.title}}</li>
+        </ul>
+
+    </div>
+    <div class="span8">
+        Id: {{selected.id}}
+            <br />
+        Title: {{selected.title}}
+            <br />
+        Author: {{selected.author}}
+
+    </div>
+</div>
+
+@section scripts
+{
+    <script src="~/App/Models/Book.js"></script>
+    <script src="~/App/Controllers/SimpleBooksCtrl.js"></script>
+}

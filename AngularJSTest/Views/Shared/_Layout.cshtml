@@ -24,7 +24,7 @@
 
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body ng-app="playApp">
+<body ng-app="app">
     <!--[if lt IE 7]>
             <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
         <![endif]-->
@@ -77,9 +77,6 @@
 
         <hr>
 
-        <div>
-            {{1+1}}
-        </div>
         <footer>
             <p>&copy; Company 2012</p>
         </footer>
@@ -88,7 +85,12 @@
     <!-- /container -->
 
     @Scripts.Render("~/bundles/jquery")
-    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-bootstrap.js"></script>
+    <script src="~/Scripts/ui-bootstrap-0.2.0.js"></script>
+
+    <script src="~/App/App.js"></script>
+    <script src="~/App/Controllers/App.MainMenuCtrl.js"></script>
 
     @RenderSection("scripts", required: false)
 

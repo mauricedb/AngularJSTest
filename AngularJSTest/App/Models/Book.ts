@@ -1,5 +1,6 @@
+/// <reference path="../../Scripts/typings/angularjs/angular-resource.d.ts" />
 module App {
-    export interface Book {
+    export interface Book extends ng.resource.IResource {
         id: number;
         title: string;
         author: string;

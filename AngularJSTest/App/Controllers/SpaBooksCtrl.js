@@ -49,6 +49,31 @@ var App;
         return SpaBooksPage2Ctrl;
     })(SpaBooksCtrl);
     App.SpaBooksPage2Ctrl = SpaBooksPage2Ctrl;    
+    var SpaBooksPage3Ctrl = (function () {
+        function SpaBooksPage3Ctrl($scope, Books) {
+            this.$scope = $scope;
+            this.Books = Books;
+            $scope.select = angular.bind(this, this.select);
+            this.loadData();
+        }
+        SpaBooksPage3Ctrl.$inject = [
+            "$scope", 
+            "Books"
+        ];
+        SpaBooksPage3Ctrl.prototype.loadData = function () {
+            var _this = this;
+            this.$scope.books = this.Books.query(function () {
+                _this.$scope.selected = _this.$scope.books[0];
+            });
+        };
+        SpaBooksPage3Ctrl.prototype.select = function (book) {
+            this.$scope.selected = this.Books.get({
+                id: book.id
+            });
+        };
+        return SpaBooksPage3Ctrl;
+    })();
+    App.SpaBooksPage3Ctrl = SpaBooksPage3Ctrl;    
     var app = angular.module('app');
     app.config([
         "$routeProvider", 
@@ -60,6 +85,10 @@ var App;
             $routeProvider.when("/page2", {
                 controller: "App.SpaBooksPage2Ctrl",
                 templateUrl: "/SpaBooks/page2"
+            });
+            $routeProvider.when("/page3", {
+                controller: "App.SpaBooksPage3Ctrl",
+                templateUrl: "/SpaBooks/page3"
             });
             $routeProvider.otherwise({
                 redirectTo: '/page1'

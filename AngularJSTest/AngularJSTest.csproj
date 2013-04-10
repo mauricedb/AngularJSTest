@@ -178,6 +178,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\BooksController.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -193,13 +194,24 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
+    <Compile Include="Models\Book.cs" />
+    <Compile Include="Models\BooksRepository.cs" />
+    <Compile Include="Models\IBooksRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <TypeScriptCompile Include="App\Services\Books.ts" />
+    <Content Include="App\Services\Books.js">
+      <DependentUpon>Books.ts</DependentUpon>
+    </Content>
+    <Content Include="App\Services\Books.min.js">
+      <DependentUpon>Books.ts</DependentUpon>
+    </Content>
     <Content Include="Views\SpaBooks\Index.cshtml" />
     <Content Include="Views\SpaBooks\SubMenu.cshtml" />
     <Content Include="Views\SpaBooks\Page1.cshtml" />
     <Content Include="Views\SpaBooks\Page2.cshtml" />
+    <Content Include="Views\SpaBooks\Page3.cshtml" />
     <TypeScriptCompile Include="App\Controllers\SimpleBooksCtrl.ts" />
     <Content Include="App\Controllers\SimpleBooksCtrl.js">
       <DependentUpon>SimpleBooksCtrl.ts</DependentUpon>
@@ -544,7 +556,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App\Directives\" />
-    <Folder Include="App\Services\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

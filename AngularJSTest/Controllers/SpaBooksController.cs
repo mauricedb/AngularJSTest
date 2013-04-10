@@ -31,5 +31,9 @@ namespace AngularJSTest.Controllers
             return PartialView();
         }
 
+        public ActionResult Page3()
+        {
+            return PartialView();
+        }
     }
 }

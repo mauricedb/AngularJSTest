@@ -1,0 +1,36 @@
+﻿<div class="container">
+    <h4>This page allowes for editing and saving of books</h4>
+    <div class="span3 well">
+        <ul class="nav">
+            <li ng-repeat="book in books" ng-click="select(book)" class="btn-link">{{book.title}}</li>
+        </ul>
+
+    </div>
+    <div class="span8">
+        <form class="form-horizontal" name="frm">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="id">Id:</label>
+                    <div class="controls">
+                        <input type="text" id="title" ng-model="selected.id" class="span1" ng-readonly="true" />
+                    </div>
+                </div>
+                <div class="control-group" ng-class="{error: frm.title.$invalid}">
+                    <label class="control-label" for="title">Title:</label>
+                    <div class="controls">
+                        <input type="text" id="title" name="title" ng-model="selected.title" class="span4" ng-required="true" />
+                        <span ng-show="frm.title.$error.required" class="help-inline">Required</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="author">Author:</label>
+                    <div class="controls">
+                        <input type="text" id="author" ng-model="selected.author" class="span4" />
+                    </div>
+                </div>
+                <button ng-click="addNew()" class="btn">Add</button>
+                <button ng-click="save(selected)" ng-disabled="frm.$invalid" class="btn btn-primary">Save</button>
+            </fieldset>
+        </form>
+    </div>
+</div>

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using AngularJSTest.Models;
 
@@ -6,7 +9,7 @@ namespace AngularJSTest.Api
 {
     public class BooksController : ApiController
     {
-        private IBooksRepository _repo = new BooksRepository();
+        private readonly IBooksRepository _repo = new BooksRepository();
 
         // GET api/books
         public IEnumerable<Book> Get()
@@ -15,21 +18,44 @@ namespace AngularJSTest.Api
         }
 
         // GET api/books/5
-        public Book Get(int id)
+        public HttpResponseMessage Get(int id)
         {
-            return _repo.GetBook(id);
+            var book = _repo.GetBook(id);
+
+            if (book == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.NotFound);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, book);
         }
 
         // POST api/books
-        public void Post(Book book)
+        public HttpResponseMessage Post(Book book)
         {
-            _repo.AddBook(book);
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var newBook = _repo.AddBook(book);
+            var response = Request.CreateResponse(HttpStatusCode.Created, newBook);
+            var uriString = Url.Link("DefaultApi", new { id = newBook.Id }) ?? string.Empty;
+            response.Headers.Location = new Uri(uriString);
+
+            return response;
         }
 
         // PUT api/books/5
-        public void Put(int id, Book book)
+        public HttpResponseMessage Put(int id, Book book)
         {
-            _repo.UpdateBook(book);
+            if (!ModelState.IsValid)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
+            }
+
+            var newBook = _repo.UpdateBook(book);
+            return Request.CreateResponse(HttpStatusCode.OK, newBook);
         }
 
         // DELETE api/books/5

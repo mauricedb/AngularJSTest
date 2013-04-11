@@ -200,6 +200,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Views\SpaBooks\Page4.cshtml" />
     <TypeScriptCompile Include="App\Services\Books.ts" />
     <Content Include="App\Services\Books.js">
       <DependentUpon>Books.ts</DependentUpon>

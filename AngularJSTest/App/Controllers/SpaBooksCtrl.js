@@ -74,6 +74,64 @@ var App;
         return SpaBooksPage3Ctrl;
     })();
     App.SpaBooksPage3Ctrl = SpaBooksPage3Ctrl;    
+    var SpaBooksPage4Ctrl = (function () {
+        function SpaBooksPage4Ctrl($scope, Books) {
+            this.$scope = $scope;
+            this.Books = Books;
+            var _this = this;
+            $scope.select = angular.bind(this, this.select);
+            $scope.addNew = angular.bind(this, this.addNew);
+            $scope.save = angular.bind(this, this.save);
+            this.$scope.books = this.Books.query(function () {
+                _this.$scope.selected = _this.$scope.books[0];
+            });
+        }
+        SpaBooksPage4Ctrl.$inject = [
+            "$scope", 
+            "Books"
+        ];
+        SpaBooksPage4Ctrl.prototype.select = function (book) {
+            this.$scope.selected = this.Books.get({
+                id: book.id
+            });
+        };
+        SpaBooksPage4Ctrl.prototype.save = function (book) {
+            var _this = this;
+            if(book.id) {
+                book.$update(function (b) {
+                    _this.updateBooks(b);
+                }, function () {
+                    alert("Oops");
+                });
+            } else {
+                this.Books.save(book, function (b) {
+                    _this.$scope.books.push(b);
+                    _this.select(b);
+                }, function () {
+                    alert("Oops");
+                });
+            }
+        };
+        SpaBooksPage4Ctrl.prototype.updateBooks = function (newBook) {
+            var oldBook = this.$scope.books.reduce(function (result, current) {
+                if(current.id === newBook.id) {
+                    result = current;
+                }
+                return result;
+            });
+            oldBook.title = newBook.title;
+            oldBook.author = newBook.author;
+        };
+        SpaBooksPage4Ctrl.prototype.addNew = function () {
+            this.$scope.selected = {
+                id: 0,
+                title: "",
+                author: ""
+            };
+        };
+        return SpaBooksPage4Ctrl;
+    })();
+    App.SpaBooksPage4Ctrl = SpaBooksPage4Ctrl;    
     var app = angular.module('app');
     app.config([
         "$routeProvider", 
@@ -89,6 +147,10 @@ var App;
             $routeProvider.when("/page3", {
                 controller: "App.SpaBooksPage3Ctrl",
                 templateUrl: "/SpaBooks/page3"
+            });
+            $routeProvider.when("/page4", {
+                controller: "App.SpaBooksPage4Ctrl",
+                templateUrl: "/SpaBooks/page4"
             });
             $routeProvider.otherwise({
                 redirectTo: '/page1'

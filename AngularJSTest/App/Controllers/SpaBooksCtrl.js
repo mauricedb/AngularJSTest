@@ -98,7 +98,7 @@ var App;
         SpaBooksPage4Ctrl.prototype.save = function (book) {
             var _this = this;
             if(book.id) {
-                book.$update(function (b) {
+                this.Books.update(book, function (b) {
                     _this.updateBooks(b);
                 }, function () {
                     alert("Oops");
@@ -113,14 +113,17 @@ var App;
             }
         };
         SpaBooksPage4Ctrl.prototype.updateBooks = function (newBook) {
-            var oldBook = this.$scope.books.reduce(function (result, current) {
-                if(current.id === newBook.id) {
+            var oldBook = this.findBook(newBook.id);
+            angular.extend(oldBook, newBook);
+        };
+        SpaBooksPage4Ctrl.prototype.findBook = function (id) {
+            var book = this.$scope.books.reduce(function (result, current) {
+                if(current.id === id) {
                     result = current;
                 }
                 return result;
             });
-            oldBook.title = newBook.title;
-            oldBook.author = newBook.author;
+            return book;
         };
         SpaBooksPage4Ctrl.prototype.addNew = function () {
             this.$scope.selected = {

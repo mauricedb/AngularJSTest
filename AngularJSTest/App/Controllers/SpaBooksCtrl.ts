@@ -57,7 +57,7 @@ module App {
 
     export class SpaBooksPage4Ctrl {
         static $inject = ["$scope", "Books"];
-        constructor(private $scope: SpaBooksPage4Scope, private Books: ng.resource.IResourceClass) {
+        constructor(private $scope: SpaBooksPage4Scope, private Books: App.Books) {
 
             $scope.select = angular.bind(this, this.select);
             $scope.addNew = angular.bind(this, this.addNew);
@@ -71,9 +71,9 @@ module App {
             this.$scope.selected = <Book>this.Books.get({ id: book.id });
         }
 
-        save(book: any) {
+        save(book: Book) {
             if (book.id) {
-                book.$update((b) => {
+                this.Books.update(book, (b) => {
                     this.updateBooks(b);
                 }, () => {
                     alert("Oops");
@@ -90,14 +90,18 @@ module App {
         }
 
         updateBooks(newBook: Book) {
-            var oldBook: Book = this.$scope.books.reduce((result, current) => {
-                if (current.id === newBook.id) {
+            var oldBook = this.findBook(newBook.id);
+            angular.extend(oldBook, newBook);
+        }
+
+        findBook(id): Book {
+            var book: Book = this.$scope.books.reduce((result, current) => {
+                if (current.id === id) {
                     result = current;
                 }
                 return result;
             });
-            oldBook.title = newBook.title;
-            oldBook.author = newBook.author;
+            return book;
         }
 
         addNew() {

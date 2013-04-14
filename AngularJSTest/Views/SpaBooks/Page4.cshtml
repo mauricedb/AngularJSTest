@@ -2,7 +2,7 @@
     <h4>This page allowes for editing and saving of books</h4>
     <div class="span3 well">
         <ul class="nav">
-            <li ng-repeat="book in books" ng-click="select(book)" class="btn-link">{{book.title}}</li>
+            <li ng-repeat="book in books | orderBy:'title'" ng-click="select(book)" class="btn-link">{{book.title}}</li>
         </ul>
 
     </div>

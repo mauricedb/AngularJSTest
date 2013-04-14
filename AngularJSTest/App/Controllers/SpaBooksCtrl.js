@@ -83,7 +83,8 @@ var App;
             $scope.addNew = angular.bind(this, this.addNew);
             $scope.save = angular.bind(this, this.save);
             this.$scope.books = this.Books.query(function () {
-                _this.$scope.selected = _this.$scope.books[0];
+                _this.$scope.selected = angular.extend({
+                }, _this.$scope.books[0]);
             });
         }
         SpaBooksPage4Ctrl.$inject = [

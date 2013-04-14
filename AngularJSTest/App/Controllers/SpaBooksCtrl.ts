@@ -63,7 +63,7 @@ module App {
             $scope.addNew = angular.bind(this, this.addNew);
             $scope.save = angular.bind(this, this.save);
             this.$scope.books = <any>this.Books.query(() => {
-                this.$scope.selected = this.$scope.books[0];
+                this.$scope.selected = angular.extend({}, this.$scope.books[0]);
             });
         }
 

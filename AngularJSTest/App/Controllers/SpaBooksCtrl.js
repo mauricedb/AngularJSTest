@@ -96,21 +96,41 @@ var App;
                 id: book.id
             });
         };
-        SpaBooksPage4Ctrl.prototype.save = function (book) {
+        SpaBooksPage4Ctrl.prototype.save = function (book, formName) {
             var _this = this;
             if(book.id) {
                 this.Books.update(book, function (b) {
+                    _this.reset(formName);
                     _this.updateBooks(b);
                 }, function () {
                     alert("Oops");
                 });
             } else {
                 this.Books.save(book, function (b) {
+                    _this.reset(formName);
                     _this.$scope.books.push(b);
                     _this.select(b);
                 }, function () {
                     alert("Oops");
                 });
+            }
+        };
+        SpaBooksPage4Ctrl.prototype.reset = function (formName, defaults) {
+            var scope = this.$scope;
+            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
+            var form = scope[formName];
+            form.$dirty = false;
+            form.$pristine = true;
+            for(var field in form) {
+                if(form[field].$pristine === false) {
+                    form[field].$pristine = true;
+                }
+                if(form[field].$dirty === true) {
+                    form[field].$dirty = false;
+                }
+            }
+            for(var d in defaults) {
+                scope[d] = defaults[d];
             }
         };
         SpaBooksPage4Ctrl.prototype.updateBooks = function (newBook) {
@@ -126,7 +146,8 @@ var App;
             });
             return book;
         };
-        SpaBooksPage4Ctrl.prototype.addNew = function () {
+        SpaBooksPage4Ctrl.prototype.addNew = function (formName) {
+            this.reset(formName);
             this.$scope.selected = {
                 id: 0,
                 title: "",

@@ -71,9 +71,10 @@ module App {
             this.$scope.selected = <Book>this.Books.get({ id: book.id });
         }
 
-        save(book: Book) {
+        save(book: Book, formName) {
             if (book.id) {
                 this.Books.update(book, (b) => {
+                    this.reset(formName);
                     this.updateBooks(b);
                 }, () => {
                     alert("Oops");
@@ -81,6 +82,7 @@ module App {
             }
             else {
                 this.Books.save(book, (b) => {
+                    this.reset(formName);
                     this.$scope.books.push(b);
                     this.select(b);
                 }, () => {
@@ -88,6 +90,28 @@ module App {
                 });
             }
         }
+
+        // From: http://stackoverflow.com/questions/12603914/reset-form-to-pristine-state-angularjs-1-0-x
+        reset(formName, defaults?) {
+            var scope = this.$scope;
+
+            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
+            var form = scope[formName];
+            form.$dirty = false;
+            form.$pristine = true;
+            for (var field in form) {
+                if (form[field].$pristine === false) {
+                    form[field].$pristine = true;
+                }
+                if (form[field].$dirty === true) {
+                    form[field].$dirty = false;
+                }
+            }
+            for (var d in defaults) {
+                scope[d] = defaults[d];
+            }
+        }
+
 
         updateBooks(newBook: Book) {
             var oldBook = this.findBook(newBook.id);
@@ -104,7 +128,8 @@ module App {
             return book;
         }
 
-        addNew() {
+        addNew(formName) {
+            this.reset(formName);
             this.$scope.selected = <Book> {
                 id: 0,
                 title: "",

@@ -11,6 +11,11 @@ namespace AngularJSTest.Api
     {
         private readonly IBooksRepository _repo = new BooksRepository();
 
+        public BooksController()
+        {
+            //System.Threading.Thread.Sleep(1000);
+        }
+
         // GET api/books
         public IEnumerable<Book> Get()
         {

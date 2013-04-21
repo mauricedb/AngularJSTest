@@ -12,6 +12,7 @@ module App {
                 { href: "Static", title: "Static content" },
                 { href: "SimpleBooks", title: "Simple books" },
                 { href: "SpaBooks", title: "SPA books" },
+                { href: "SignalRBooks", title: "SignalR books" },
             ];
 
         }

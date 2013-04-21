@@ -17,6 +17,10 @@ var App;
                     href: "SpaBooks",
                     title: "SPA books"
                 }, 
+                {
+                    href: "SignalRBooks",
+                    title: "SignalR books"
+                }, 
                 
             ];
         }

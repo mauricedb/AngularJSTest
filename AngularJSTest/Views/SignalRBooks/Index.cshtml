@@ -1,0 +1,63 @@
+﻿<div class="container" data-ng-controller="App.SignalRBooksCtrl">
+    <h4>This page allowes for editing and saving of books using SignalR</h4>
+    <form name="frm"
+        class="form-horizontal">
+        <div class="span3 well">
+            <ul class="nav">
+                <li data-ng-repeat="book in books | orderBy:'title'"
+                    data-ng-click="select(book)" data-
+                    ng-class="{'btn-link': frm.$pristine}">{{book.title}}</li>
+            </ul>
+
+        </div>
+        <div class="span8">
+            <fieldset>
+                <div class="control-group">
+                    <label class="control-label" for="id">Id:</label>
+                    <div class="controls">
+                        <input type="text"
+                            id="id"
+                            data-ng-model="selected.id"
+                            class="span1"
+                            data-ng-readonly="true" />
+                    </div>
+                </div>
+                <div class="control-group"
+                    data-ng-class="{error: frm.title.$invalid}">
+                    <label class="control-label" for="title">Title:</label>
+                    <div class="controls">
+                        <input type="text" id="title" name="title"
+                            data-ng-model="selected.title" class="span4"
+                            data-ng-required="true" />
+                        <span data-ng-show="frm.title.$error.required"
+                            class="help-inline">Required</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="author">Author:</label>
+                    <div class="controls">
+                        <input type="text" id="author"
+                            data-ng-model="selected.author"
+                            class="span4" />
+                    </div>
+                </div>
+                <button data-ng-click="addNew('frm')"
+                    data-ng-disabled="frm.$dirty"
+                    class="btn">
+                    Add</button>
+                <button data-ng-click="save(selected, 'frm')"
+                    data-ng-disabled="frm.$invalid || !frm.$dirty"
+                    class="btn btn-primary">
+                    Save</button>
+            </fieldset>
+        </div>
+    </form>
+</div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/jquery.signalR-1.0.1.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script src="~/App/Controllers/SignalRBooksCtrl.js"></script>
+}

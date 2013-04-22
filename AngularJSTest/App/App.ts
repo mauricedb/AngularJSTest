@@ -17,5 +17,30 @@ angular
         });
     });
 
+angular.module("app.ctrlUtils", [])
+    .service("ctrlUtils",() => {
+    return {
+        // From: http://stackoverflow.com/questions/12603914/reset-form-to-pristine-state-angularjs-1-0-x
+        reset: (scope, formName, defaults?) => {
+            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
+            var form = scope[formName];
+            form.$dirty = false;
+            form.$pristine = true;
+            for (var field in form) {
+                if (form[field].$pristine === false) {
+                    form[field].$pristine = true;
+                }
+                if (form[field].$dirty === true) {
+                    form[field].$dirty = false;
+                }
+            }
+            for (var d in defaults) {
+                scope[d] = defaults[d];
+            }
 
-angular.module('app', ['ui.bootstrap', 'app.Books', 'loadingOnAJAX']);
+        }
+    };
+});
+
+
+angular.module('app', ['ui.bootstrap', 'app.Books', 'loadingOnAJAX', 'app.ctrlUtils']);

@@ -7,10 +7,10 @@ module App {
 
 
     export class SignalRBooksCtrl {
-        static $inject = ["$scope"];
+        static $inject = ["$scope", "ctrlUtils"];
         private booksHub: any;
 
-        constructor(private $scope: SignalRBooksScope) {
+        constructor(private $scope: SignalRBooksScope, private ctrlUtils) {
             var $$: any = $;
             this.booksHub = $$.connection.booksHub;
 
@@ -28,37 +28,18 @@ module App {
             $scope.save = angular.bind(this, this.save);
         }
 
-        select(book: App.Book) {
-            this.$scope.selected = book;
+        select(book: App.Book, formName) {
+            this.ctrlUtils.reset(this.$scope, formName);
+            this.$scope.selected = angular.extend({}, book);
         }
 
         save(book: Book, formName) {
+            this.ctrlUtils.reset(this.$scope, formName);
             if (book.id) {
                 this.booksHub.server.updateBook(book);
             }
             else {
                 this.booksHub.server.addBook(book);
-            }
-        }
-
-        // From: http://stackoverflow.com/questions/12603914/reset-form-to-pristine-state-angularjs-1-0-x
-        reset(formName, defaults?) {
-            var scope = this.$scope;
-
-            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
-            var form = scope[formName];
-            form.$dirty = false;
-            form.$pristine = true;
-            for (var field in form) {
-                if (form[field].$pristine === false) {
-                    form[field].$pristine = true;
-                }
-                if (form[field].$dirty === true) {
-                    form[field].$dirty = false;
-                }
-            }
-            for (var d in defaults) {
-                scope[d] = defaults[d];
             }
         }
 
@@ -84,7 +65,7 @@ module App {
         }
 
         addNew(formName) {
-            this.reset(formName);
+            this.ctrlUtils.reset(this.$scope, formName);
             this.$scope.selected = <Book> {
                 id: 0,
                 title: "",

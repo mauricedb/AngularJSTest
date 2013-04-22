@@ -1,8 +1,9 @@
 var App;
 (function (App) {
     var SignalRBooksCtrl = (function () {
-        function SignalRBooksCtrl($scope) {
+        function SignalRBooksCtrl($scope, ctrlUtils) {
             this.$scope = $scope;
+            this.ctrlUtils = ctrlUtils;
             var _this = this;
             var $$ = $;
             this.booksHub = $$.connection.booksHub;
@@ -19,34 +20,20 @@ var App;
             $scope.save = angular.bind(this, this.save);
         }
         SignalRBooksCtrl.$inject = [
-            "$scope"
+            "$scope", 
+            "ctrlUtils"
         ];
-        SignalRBooksCtrl.prototype.select = function (book) {
-            this.$scope.selected = book;
+        SignalRBooksCtrl.prototype.select = function (book, formName) {
+            this.ctrlUtils.reset(this.$scope, formName);
+            this.$scope.selected = angular.extend({
+            }, book);
         };
         SignalRBooksCtrl.prototype.save = function (book, formName) {
+            this.ctrlUtils.reset(this.$scope, formName);
             if(book.id) {
                 this.booksHub.server.updateBook(book);
             } else {
                 this.booksHub.server.addBook(book);
-            }
-        };
-        SignalRBooksCtrl.prototype.reset = function (formName, defaults) {
-            var scope = this.$scope;
-            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
-            var form = scope[formName];
-            form.$dirty = false;
-            form.$pristine = true;
-            for(var field in form) {
-                if(form[field].$pristine === false) {
-                    form[field].$pristine = true;
-                }
-                if(form[field].$dirty === true) {
-                    form[field].$dirty = false;
-                }
-            }
-            for(var d in defaults) {
-                scope[d] = defaults[d];
             }
         };
         SignalRBooksCtrl.prototype.bookUpdated = function (newBook) {
@@ -70,7 +57,7 @@ var App;
             return book;
         };
         SignalRBooksCtrl.prototype.addNew = function (formName) {
-            this.reset(formName);
+            this.ctrlUtils.reset(this.$scope, formName);
             this.$scope.selected = {
                 id: 0,
                 title: "",

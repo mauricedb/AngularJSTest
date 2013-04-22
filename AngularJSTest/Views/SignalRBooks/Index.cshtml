@@ -5,8 +5,8 @@
         <div class="span3 well">
             <ul class="nav">
                 <li data-ng-repeat="book in books | orderBy:'title'"
-                    data-ng-click="select(book)" data-
-                    ng-class="{'btn-link': frm.$pristine}">{{book.title}}</li>
+                    data-ng-click="select(book, 'frm')" 
+                    data-ng-class="{'btn-link': frm.$pristine}">{{book.title}}</li>
             </ul>
 
         </div>

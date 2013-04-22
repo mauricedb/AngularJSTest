@@ -15,8 +15,30 @@ angular.module('loadingOnAJAX', []).config(function ($httpProvider) {
         };
     });
 });
+angular.module("app.ctrlUtils", []).service("ctrlUtils", function () {
+    return {
+        reset: function (scope, formName, defaults) {
+            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
+            var form = scope[formName];
+            form.$dirty = false;
+            form.$pristine = true;
+            for(var field in form) {
+                if(form[field].$pristine === false) {
+                    form[field].$pristine = true;
+                }
+                if(form[field].$dirty === true) {
+                    form[field].$dirty = false;
+                }
+            }
+            for(var d in defaults) {
+                scope[d] = defaults[d];
+            }
+        }
+    };
+});
 angular.module('app', [
     'ui.bootstrap', 
     'app.Books', 
-    'loadingOnAJAX'
+    'loadingOnAJAX', 
+    'app.ctrlUtils'
 ]);

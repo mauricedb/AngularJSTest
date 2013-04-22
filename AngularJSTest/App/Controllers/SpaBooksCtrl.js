@@ -75,9 +75,10 @@ var App;
     })();
     App.SpaBooksPage3Ctrl = SpaBooksPage3Ctrl;    
     var SpaBooksPage4Ctrl = (function () {
-        function SpaBooksPage4Ctrl($scope, Books) {
+        function SpaBooksPage4Ctrl($scope, Books, ctrlUtils) {
             this.$scope = $scope;
             this.Books = Books;
+            this.ctrlUtils = ctrlUtils;
             var _this = this;
             $scope.select = angular.bind(this, this.select);
             $scope.addNew = angular.bind(this, this.addNew);
@@ -89,48 +90,32 @@ var App;
         }
         SpaBooksPage4Ctrl.$inject = [
             "$scope", 
-            "Books"
+            "Books", 
+            "ctrlUtils"
         ];
-        SpaBooksPage4Ctrl.prototype.select = function (book) {
+        SpaBooksPage4Ctrl.prototype.select = function (book, formName) {
             this.$scope.selected = this.Books.get({
                 id: book.id
             });
+            this.ctrlUtils.reset(this.$scope, formName);
         };
         SpaBooksPage4Ctrl.prototype.save = function (book, formName) {
             var _this = this;
             if(book.id) {
                 this.Books.update(book, function (b) {
-                    _this.reset(formName);
+                    _this.ctrlUtils.reset(_this.$scope, formName);
                     _this.updateBooks(b);
                 }, function () {
                     alert("Oops");
                 });
             } else {
                 this.Books.save(book, function (b) {
-                    _this.reset(formName);
+                    _this.ctrlUtils.reset(_this.$scope, formName);
                     _this.$scope.books.push(b);
-                    _this.select(b);
+                    _this.select(b, formName);
                 }, function () {
                     alert("Oops");
                 });
-            }
-        };
-        SpaBooksPage4Ctrl.prototype.reset = function (formName, defaults) {
-            var scope = this.$scope;
-            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
-            var form = scope[formName];
-            form.$dirty = false;
-            form.$pristine = true;
-            for(var field in form) {
-                if(form[field].$pristine === false) {
-                    form[field].$pristine = true;
-                }
-                if(form[field].$dirty === true) {
-                    form[field].$dirty = false;
-                }
-            }
-            for(var d in defaults) {
-                scope[d] = defaults[d];
             }
         };
         SpaBooksPage4Ctrl.prototype.updateBooks = function (newBook) {
@@ -147,7 +132,7 @@ var App;
             return book;
         };
         SpaBooksPage4Ctrl.prototype.addNew = function (formName) {
-            this.reset(formName);
+            this.ctrlUtils.reset(this.$scope, formName);
             this.$scope.selected = {
                 id: 0,
                 title: "",

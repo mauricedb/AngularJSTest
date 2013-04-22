@@ -56,8 +56,9 @@ module App {
     }
 
     export class SpaBooksPage4Ctrl {
-        static $inject = ["$scope", "Books"];
-        constructor(private $scope: SpaBooksPage4Scope, private Books: App.Books) {
+        static $inject = ["$scope", "Books", "ctrlUtils"];
+        constructor(private $scope: SpaBooksPage4Scope,
+            private Books: App.Books, private ctrlUtils) {
 
             $scope.select = angular.bind(this, this.select);
             $scope.addNew = angular.bind(this, this.addNew);
@@ -67,14 +68,15 @@ module App {
             });
         }
 
-        select(book: App.Book) {
+        select(book: App.Book, formName) {
             this.$scope.selected = <Book>this.Books.get({ id: book.id });
+            this.ctrlUtils.reset(this.$scope, formName);
         }
 
         save(book: Book, formName) {
             if (book.id) {
                 this.Books.update(book, (b) => {
-                    this.reset(formName);
+                    this.ctrlUtils.reset(this.$scope, formName);
                     this.updateBooks(b);
                 }, () => {
                     alert("Oops");
@@ -82,36 +84,14 @@ module App {
             }
             else {
                 this.Books.save(book, (b) => {
-                    this.reset(formName);
+                    this.ctrlUtils.reset(this.$scope, formName);
                     this.$scope.books.push(b);
-                    this.select(b);
+                    this.select(b, formName);
                 }, () => {
                     alert("Oops");
                 });
             }
         }
-
-        // From: http://stackoverflow.com/questions/12603914/reset-form-to-pristine-state-angularjs-1-0-x
-        reset(formName, defaults?) {
-            var scope = this.$scope;
-
-            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
-            var form = scope[formName];
-            form.$dirty = false;
-            form.$pristine = true;
-            for (var field in form) {
-                if (form[field].$pristine === false) {
-                    form[field].$pristine = true;
-                }
-                if (form[field].$dirty === true) {
-                    form[field].$dirty = false;
-                }
-            }
-            for (var d in defaults) {
-                scope[d] = defaults[d];
-            }
-        }
-
 
         updateBooks(newBook: Book) {
             var oldBook = this.findBook(newBook.id);
@@ -129,7 +109,7 @@ module App {
         }
 
         addNew(formName) {
-            this.reset(formName);
+            this.ctrlUtils.reset(this.$scope, formName);
             this.$scope.selected = <Book> {
                 id: 0,
                 title: "",

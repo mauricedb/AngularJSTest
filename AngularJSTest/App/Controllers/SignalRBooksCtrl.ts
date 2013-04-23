@@ -18,6 +18,7 @@ module App {
                 this.booksHub.server.getBooks().then((books) => {
                     $scope.$apply(() => {
                         $scope.books = books;
+                        this.select(books[0]);
                     });
                 });
             })
@@ -28,8 +29,10 @@ module App {
             $scope.save = angular.bind(this, this.save);
         }
 
-        select(book: App.Book, formName) {
-            this.ctrlUtils.reset(this.$scope, formName);
+        select(book: App.Book, formName?) {
+            if (formName) {
+                this.ctrlUtils.reset(this.$scope, formName);
+            }
             this.$scope.selected = angular.extend({}, book);
         }
 

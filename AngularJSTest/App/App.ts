@@ -37,11 +37,9 @@ angular.module("app.ctrlUtils", [])
             for (var d in defaults) {
                 scope[d] = defaults[d];
             }
-
         }
     };
 });
 
-
-angular.module('app', ['app.Books', 'loadingOnAJAX', 'app.ctrlUtils', '$strap.directives']);
-//angular.module('app', ['ui.bootstrap', 'app.Books', 'loadingOnAJAX', 'app.ctrlUtils']);
+angular.module('app',
+    ['app.Books', 'loadingOnAJAX', 'app.ctrlUtils', '$strap.directives']);

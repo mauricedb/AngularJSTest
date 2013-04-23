@@ -11,6 +11,7 @@ var App;
                 _this.booksHub.server.getBooks().then(function (books) {
                     $scope.$apply(function () {
                         $scope.books = books;
+                        _this.select(books[0]);
                     });
                 });
             });
@@ -24,7 +25,9 @@ var App;
             "ctrlUtils"
         ];
         SignalRBooksCtrl.prototype.select = function (book, formName) {
-            this.ctrlUtils.reset(this.$scope, formName);
+            if(formName) {
+                this.ctrlUtils.reset(this.$scope, formName);
+            }
             this.$scope.selected = angular.extend({
             }, book);
         };

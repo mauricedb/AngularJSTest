@@ -37,8 +37,8 @@ angular.module("app.ctrlUtils", []).service("ctrlUtils", function () {
     };
 });
 angular.module('app', [
-    'ui.bootstrap', 
     'app.Books', 
     'loadingOnAJAX', 
-    'app.ctrlUtils'
+    'app.ctrlUtils', 
+    '$strap.directives'
 ]);

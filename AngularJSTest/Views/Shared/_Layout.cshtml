@@ -43,27 +43,19 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav" ng-controller="App.MainMenuCtrl">
                         <li class="active">@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li class="dropdown" ng-class='{open: workItemsOpen}'>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-click='workItemsOpen=!workItemsOpen'>Workitems <b class="caret"></b></a>
+
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown">Workitems <b class="caret"></b>
+                            </a>
                             <ul class="dropdown-menu">
-                                <li ng-repeat="workItem in workItems"><a href="/{{workItem.href}}" ng-click="workItemClicked()">{{workItem.title}}</a></li>
+                                <li ng-repeat="workItem in workItems">
+                                    <a href="/{{workItem.href}}" ng-click="workItemClicked()">{{workItem.title}}</a>
+                                </li>
                             </ul>
                         </li>
 
                         <li><a href="#about">About</a></li>
                         <li><a href="#contact">Contact</a></li>
-@*                        <li class="dropdown" ng-class='{open: open}'>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-click='open=!open'>Dropdown <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li class="nav-header">Nav header</li>
-                                <li><a href="#">Separated link</a></li>
-                                <li><a href="#">One more separated link</a></li>
-                            </ul>
-                        </li>*@
                         @Html.Partial("_LoginPartial")
                     </ul>
                 </div>
@@ -85,9 +77,9 @@
     <!-- /container -->
 
     @Scripts.Render("~/bundles/jquery")
+    <script src="~/Scripts/bootstrap.js"></script>
     <script src="~/Scripts/angular.js"></script>
-    @*<script src="~/Scripts/angular-bootstrap.js"></script>*@
-    <script src="~/Scripts/ui-bootstrap-0.2.0.js"></script>
+    <script src="~/Scripts/angular-strap.js"></script>
     <script src="~/Scripts/angular-resource.js"></script>
 
     <script src="~/App/Services/Books.js"></script>

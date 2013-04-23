@@ -43,4 +43,5 @@ angular.module("app.ctrlUtils", [])
 });
 
 
-angular.module('app', ['ui.bootstrap', 'app.Books', 'loadingOnAJAX', 'app.ctrlUtils']);
+angular.module('app', ['app.Books', 'loadingOnAJAX', 'app.ctrlUtils', '$strap.directives']);
+//angular.module('app', ['ui.bootstrap', 'app.Books', 'loadingOnAJAX', 'app.ctrlUtils']);

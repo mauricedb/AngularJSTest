@@ -1,27 +1,21 @@
 var App;
 (function (App) {
     var SignalRBooksCtrl = (function () {
-        function SignalRBooksCtrl($scope, ctrlUtils) {
+        function SignalRBooksCtrl($scope, SignalRBooks, ctrlUtils) {
             this.$scope = $scope;
+            this.SignalRBooks = SignalRBooks;
             this.ctrlUtils = ctrlUtils;
             var _this = this;
-            var $$ = $;
-            this.booksHub = $$.connection.booksHub;
-            $$.connection.hub.start(function () {
-                _this.booksHub.server.getBooks().then(function (books) {
-                    $scope.$apply(function () {
-                        $scope.books = books;
-                        _this.select(books[0]);
-                    });
-                });
+            $scope.books = SignalRBooks.getBooks(function () {
+                _this.select($scope.books[0]);
             });
-            this.booksHub.client.bookUpdated = angular.bind(this, this.bookUpdated);
             $scope.select = angular.bind(this, this.select);
             $scope.addNew = angular.bind(this, this.addNew);
             $scope.save = angular.bind(this, this.save);
         }
         SignalRBooksCtrl.$inject = [
             "$scope", 
+            "SignalRBooks", 
             "ctrlUtils"
         ];
         SignalRBooksCtrl.prototype.select = function (book, formName) {
@@ -33,31 +27,7 @@ var App;
         };
         SignalRBooksCtrl.prototype.save = function (book, formName) {
             this.ctrlUtils.reset(this.$scope, formName);
-            if(book.id) {
-                this.booksHub.server.updateBook(book);
-            } else {
-                this.booksHub.server.addBook(book);
-            }
-        };
-        SignalRBooksCtrl.prototype.bookUpdated = function (newBook) {
-            var _this = this;
-            this.$scope.$apply(function () {
-                var oldBook = _this.findBook(newBook.id);
-                if(oldBook) {
-                    angular.extend(oldBook, newBook);
-                } else {
-                    _this.$scope.books.push(newBook);
-                }
-            });
-        };
-        SignalRBooksCtrl.prototype.findBook = function (id) {
-            var book = this.$scope.books.reduce(function (result, current) {
-                if(current.id === id) {
-                    result = current;
-                }
-                return result;
-            }, null);
-            return book;
+            this.SignalRBooks.save(book);
         };
         SignalRBooksCtrl.prototype.addNew = function (formName) {
             this.ctrlUtils.reset(this.$scope, formName);

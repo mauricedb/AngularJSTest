@@ -13,3 +13,4 @@ module App {
         update: ng.resource.IActionCall;
     }
 }
+

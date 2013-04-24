@@ -38,6 +38,7 @@ angular.module("app.ctrlUtils", []).service("ctrlUtils", function () {
 });
 angular.module('app', [
     'app.Books', 
+    'app.SignalRBooks', 
     'loadingOnAJAX', 
     'app.ctrlUtils', 
     '$strap.directives'

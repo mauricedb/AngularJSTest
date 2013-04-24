@@ -1,4 +1,5 @@
 /// <reference path="../Scripts/typings/angularjs/angular.d.ts" />
+/// <reference path="Models/Book.ts" />
 
 // From: http://blog.tomaka17.com/2012/12/random-tricks-when-using-angularjs/
 angular
@@ -18,28 +19,30 @@ angular
     });
 
 angular.module("app.ctrlUtils", [])
-    .service("ctrlUtils",() => {
-    return {
-        // From: http://stackoverflow.com/questions/12603914/reset-form-to-pristine-state-angularjs-1-0-x
-        reset: (scope, formName, defaults?) => {
-            $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
-            var form = scope[formName];
-            form.$dirty = false;
-            form.$pristine = true;
-            for (var field in form) {
-                if (form[field].$pristine === false) {
-                    form[field].$pristine = true;
+    .service("ctrlUtils", () => {
+        return {
+            // From: http://stackoverflow.com/questions/12603914/reset-form-to-pristine-state-angularjs-1-0-x
+            reset: (scope, formName, defaults?) => {
+                $('form[name=' + formName + '], form[name=' + formName + '] .ng-dirty').removeClass('ng-dirty').addClass('ng-pristine');
+                var form = scope[formName];
+                form.$dirty = false;
+                form.$pristine = true;
+                for (var field in form) {
+                    if (form[field].$pristine === false) {
+                        form[field].$pristine = true;
+                    }
+                    if (form[field].$dirty === true) {
+                        form[field].$dirty = false;
+                    }
                 }
-                if (form[field].$dirty === true) {
-                    form[field].$dirty = false;
+                for (var d in defaults) {
+                    scope[d] = defaults[d];
                 }
             }
-            for (var d in defaults) {
-                scope[d] = defaults[d];
-            }
-        }
-    };
-});
+        };
+    });
+
+
 
 angular.module('app',
-    ['app.Books', 'loadingOnAJAX', 'app.ctrlUtils', '$strap.directives']);
+    ['app.Books', 'app.SignalRBooks', 'loadingOnAJAX', 'app.ctrlUtils', '$strap.directives']);

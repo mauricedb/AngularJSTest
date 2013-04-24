@@ -1,28 +1,15 @@
-/// <reference path="../Services/Books.ts" />
 /// <reference path="../../Scripts/typings/angularjs/angular.d.ts" />
 /// <reference path="../Models/Book.ts" />
 
 
 module App {
-
-
     export class SignalRBooksCtrl {
-        static $inject = ["$scope", "ctrlUtils"];
-        private booksHub: any;
+        static $inject = ["$scope", "SignalRBooks", "ctrlUtils"];
 
-        constructor(private $scope: SignalRBooksScope, private ctrlUtils) {
-            var $$: any = $;
-            this.booksHub = $$.connection.booksHub;
-
-            $$.connection.hub.start(() => {
-                this.booksHub.server.getBooks().then((books) => {
-                    $scope.$apply(() => {
-                        $scope.books = books;
-                        this.select(books[0]);
-                    });
-                });
-            })
-            this.booksHub.client.bookUpdated = angular.bind(this, this.bookUpdated);
+        constructor(private $scope: SignalRBooksScope, private SignalRBooks, private ctrlUtils) {
+            $scope.books = SignalRBooks.getBooks(() => {
+                this.select($scope.books[0])
+            });
 
             $scope.select = angular.bind(this, this.select);
             $scope.addNew = angular.bind(this, this.addNew);
@@ -38,33 +25,7 @@ module App {
 
         save(book: Book, formName) {
             this.ctrlUtils.reset(this.$scope, formName);
-            if (book.id) {
-                this.booksHub.server.updateBook(book);
-            }
-            else {
-                this.booksHub.server.addBook(book);
-            }
-        }
-
-        bookUpdated(newBook: Book) {
-            this.$scope.$apply(() => {
-                var oldBook = this.findBook(newBook.id);
-                if (oldBook) {
-                    angular.extend(oldBook, newBook);
-                } else {
-                    this.$scope.books.push(newBook);
-                }
-            });
-        }
-
-        findBook(id): Book {
-            var book: Book = this.$scope.books.reduce((result, current) => {
-                if (current.id === id) {
-                    result = current;
-                }
-                return result;
-            }, null);
-            return book;
+            this.SignalRBooks.save(book);
         }
 
         addNew(formName) {
@@ -84,6 +45,4 @@ module App {
         save: Function;
         addNew: Function;
     }
-
-
 }

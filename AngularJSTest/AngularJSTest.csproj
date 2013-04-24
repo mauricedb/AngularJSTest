@@ -224,6 +224,13 @@
     <Content Include="App\Controllers\SignalRBooksCtrl.min.js">
       <DependentUpon>SignalRBooksCtrl.ts</DependentUpon>
     </Content>
+    <TypeScriptCompile Include="App\Services\SignalRBooks.ts" />
+    <Content Include="App\Services\SignalRBooks.js">
+      <DependentUpon>SignalRBooks.ts</DependentUpon>
+    </Content>
+    <Content Include="App\Services\SignalRBooks.min.js">
+      <DependentUpon>SignalRBooks.ts</DependentUpon>
+    </Content>
     <Content Include="Scripts\angular-bootstrap-prettify.js" />
     <Content Include="Scripts\angular-bootstrap-prettify.min.js" />
     <Content Include="Scripts\angular-bootstrap.js" />

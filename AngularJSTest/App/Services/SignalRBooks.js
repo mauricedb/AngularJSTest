@@ -1,10 +1,9 @@
 var appBooks = angular.module('app.SignalRBooks', []);
 appBooks.factory("SignalRBooks", function ($rootScope) {
-    var $$ = $;
-    var booksHub = $$.connection.booksHub;
+    var booksHub = $.connection.booksHub;
     var books = [];
     function getBooks(done) {
-        $$.connection.hub.start(function () {
+        $.connection.hub.start(function () {
             booksHub.server.getBooks().then(function (newBooks) {
                 angular.copy(newBooks, books);
                 if(done) {
